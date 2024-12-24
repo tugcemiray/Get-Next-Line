@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Get_Next_Line.h                                    :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tugcemirayalgan <tugcemirayalgan@studen    +#+  +:+       +#+        */
+/*   By: tukaraca <tukaraca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/22 21:31:12 by tugcemiraya       #+#    #+#             */
-/*   Updated: 2024/12/23 20:55:38 by tugcemiraya      ###   ########.fr       */
+/*   Created: 2024/12/24 17:21:36 by tukaraca          #+#    #+#             */
+/*   Updated: 2024/12/24 21:00:38 by tukaraca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4
+#  define BUFFER_SIZE 5
 # endif
 
 # include <unistd.h>
 # include <stdlib.h>
 
-size_t	ft_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
+size_t	ft_strlen(const char *str);
+int		ft_strchr(char *str, char c);
 char	*ft_strjoin(char *s1, char *s2);
-char	*get_last_line(char *str);
-char	*get_line(char *str);
+int		ft_strlcpy(char *dst, char *src, int size);
+char	*get_line_first(char *str);
 char	*get_read(int fd, char *str);
+char	*get_last_line(char *str);
 char	*get_next_line(int fd);
 
 #endif
