@@ -1,64 +1,62 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Get_Next_Line.c                                    :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tugcemirayalgan <tugcemirayalgan@studen    +#+  +:+       +#+        */
+/*   By: tukaraca <tukaraca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/22 21:23:09 by tugcemiraya       #+#    #+#             */
-/*   Updated: 2024/12/23 20:57:16 by tugcemiraya      ###   ########.fr       */
+/*   Created: 2024/12/24 17:14:44 by tukaraca          #+#    #+#             */
+/*   Updated: 2024/12/24 20:59:33 by tukaraca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_line(char *str)
+char	*get_last_line(char *str)
 {
 	char	*final;
-	int 	i;
+	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	while (str[i] != '\0' && str[i] != '\n') 
+	while (str[i] && str[i] != '\n')
 		i++;
-	if(!str[i])
-	{
-		free(str);
-		return (NULL);
-	}
-	final = (char *)malloc(sizeof(char) * ft_strlen(str) - i);
-	if(!final)
-		return (NULL);
-	i++;
-	while(str[i + j] != '\0')
-	{
-		final[j] = str[j + i];
-		j++;
-	}
+	if (!str[i])
+		return (free (str), NULL);
+	if (str[i] == '\n')
+		i++;
+	final = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
+	if (!final)
+		return (free(str), NULL);
+	while (str[i])
+		final[j++] = str[i++];
 	final[j] = '\0';
 	free(str);
-	return(final);
+	return (final);
 }
 
-char	get_read(int fd, char *str)
+char	*get_read(int fd, char *str)
 {
-	char *buff;
-	int rd;
+	char	*buff;
+	int		rd;
 
 	rd = 1;
-	buff = (char *)ft_calloc(sizeof(char), (BUFFER_SIZE + 1));
+	if (!str)
+	{
+		str = malloc(sizeof(char));
+		if (!str)
+			return (NULL);
+		str[0] = '\0';
+	}
+	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
 		return (NULL);
-	while (!ft_strchr(str, '\n') && rd != 0)
-	{ 
+	while (rd != 0 && !ft_strchr(str, '\n'))
+	{
 		rd = read(fd, buff, BUFFER_SIZE);
-		if (rd == _1)
-		{
-			free(buff);
-			free(str);
-			return(NULL);
-		}
+		if (rd == -1)
+			return (free(str), free(buff), NULL);
 		buff[rd] = '\0';
 		str = ft_strjoin(str, buff);
 	}
@@ -66,26 +64,25 @@ char	get_read(int fd, char *str)
 	return (str);
 }
 
-char get_last_line(char *str)
+char	*get_first_line(char *str)
 {
 	char	*line;
 	int		i;
-	
+
 	i = 0;
-	if(!str[i])
-		return(NULL);
+	if (!*str)
+		return (NULL);
 	while (str[i] != '\0' && str[i] != '\n')
 		i++;
-	line = (char *)malloc(sizeof(char) * i + 2);
-	if(!line)
-		return (NULL);
-	i = 0;
-	while(str[i] != '\0' && str[i] != '\n')
-	{
-		line[i]= str[i];
+	if (str[i] == '\n')
 		i++;
-	}
-	if( str[i] == '\n')
+	line = (char *)malloc(sizeof(char) * (i + 1));
+	if (!line)
+		return (NULL);
+	i = -1;
+	while (str[++i] != '\0' && str[i] != '\n')
+		line[i] = str[i];
+	if (str[i] == '\n')
 	{
 		line[i] = str[i];
 		i++;
@@ -93,7 +90,6 @@ char get_last_line(char *str)
 	line[i] = '\0';
 	return (line);
 }
-
 
 char	*get_next_line(int fd)
 {
@@ -103,11 +99,9 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	str = get_read(fd, str);
-	if (!str) 
-	{
-		return (NULL); 
-	}
-	line = ft_liner(str);
-	str = get_line(str);
+	if (!str)
+		return (NULL);
+	line = get_first_line(str);
+	str = get_last_line(str);
 	return (line);
 }
