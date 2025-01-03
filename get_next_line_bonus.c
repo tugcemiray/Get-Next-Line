@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tugcemirayalgan <tugcemirayalgan@studen    +#+  +:+       +#+        */
+/*   By: tukaraca <tukaraca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/24 17:14:44 by tukaraca          #+#    #+#             */
-/*   Updated: 2025/01/02 01:24:22 by tugcemiraya      ###   ########.fr       */
+/*   Created: 2024/12/27 19:40:39 by tukaraca          #+#    #+#             */
+/*   Updated: 2024/12/27 19:49:53 by tukaraca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
